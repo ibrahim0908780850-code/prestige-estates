@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestige Estates | Ultra-Luxury Real Estate</title>
+    <meta name="description" content="Prestige Estates - Ultra-luxury real estate. Exclusive properties worldwide.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#C9A96E',
+                        background: '#050505',
+                        surface: '#111111',
+                        card: '#161616',
+                        muted: '#A1A1AA',
+                    },
+                    fontFamily: {
+                        playfair: ['Playfair Display', 'serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        cairo: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>    <style>
+        :root { --primary: #C9A96E; --background: #050505; --surface: #111111; --card: #161616; --text: #FFFFFF; --muted: #A1A1AA; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--text); overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--background); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+        .loading-screen { position: fixed; inset: 0; background: var(--background); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 0.8s ease, visibility 0.8s ease; }
+        .loading-screen.hidden { opacity: 0; visibility: hidden; }
+        .loading-bar { width: 200px; height: 1px; background: rgba(201,169,110,0.2); margin-top: 30px; position: relative; overflow: hidden; }
+        .loading-bar::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--primary); animation: loadProgress 2s ease forwards; }
+        @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
+        .glass { background: rgba(17,17,17,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(201,169,110,0.1); }
+        .glass-light { background: rgba(22,22,22,0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.05); }
+        .gradient-text { background: linear-gradient(135deg, #C9A96E 0%, #E8D5A3 50%, #C9A96E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; will-change: transform; }
+        .property-card { transition: all 0.5s cubic-bezier(0.4,0,0.2,1); }
+        .property-card:hover { transform: translateY(-8px); }
+        .property-card:hover .property-img { transform: scale(1.08); }
+        .property-card:hover .property-overlay { opacity: 1; }
+        .property-img { transition: transform 0.7s cubic-bezier(0.4,0,0.2,1); }
+        .property-overlay { opacity: 0; transition: opacity 0.4s ease; }
+        .btn-primary { background: linear-gradient(135deg, #C9A96E, #B8944F); color: #050505; padding: 14px 32px; font-weight: 600; letter-spacing: 0.5px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s ease; }
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(201,169,110,0.3); }
+        .btn-outline { border: 1px solid rgba(201,169,110,0.5); color: var(--primary); padding: 14px 32px; font-weight: 500; transition: all 0.3s ease; }
+        .btn-outline:hover { background: var(--primary); color: var(--background); border-color: var(--primary); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .nav-link { position: relative; padding: 8px 0; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--primary); transition: width 0.3s ease; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .gallery-thumb { cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
+        .gallery-thumb:hover, .gallery-thumb.active { border-color: var(--primary); }
+        .testimonial-card { background: linear-gradient(145deg, rgba(22,22,22,0.9), rgba(17,17,17,0.9)); border: 1px solid rgba(201,169,110,0.1); }
+        .timeline-item::before { content: ''; position: absolute; left: -5px; top: 8px; width: 10px; height: 10px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 20px rgba(201,169,110,0.5); }
+        .luxury-input { background: rgba(22,22,22,0.8); border: 1px solid rgba(255,255,255,0.1); color: white; transition: all 0.3s ease; }
+        .luxury-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(201,169,110,0.1); }
+        .mobile-menu { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .mobile-menu.open { transform: translateX(0); }
+        .page-content { opacity: 0; transform: translateY(20px); animation: pageEnter 0.6s ease forwards; }
+        @keyframes pageEnter { to { opacity: 1; transform: translateY(0); } }
+        .shimmer { position: relative; overflow: hidden; }
+        .shimmer::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); animation: shimmer 3s infinite; }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+        @media (pointer: fine) { .custom-cursor { width: 20px; height: 20px; border: 1px solid var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.15s ease, opacity 0.15s ease; mix-blend-mode: difference; } .custom-cursor.hover { transform: scale(2); background: rgba(201,169,110,0.1); } }
+        .agent-card:hover .agent-photo { transform: scale(1.05); }
+        .agent-card:hover .agent-info { transform: translateY(-5px); }
+        .agent-photo { transition: transform 0.5s ease; }
+        .agent-info { transition: transform 0.3s ease; }
+        .luxury-tag { background: rgba(201,169,110,0.15); border: 1px solid rgba(201,169,110,0.3); color: var(--primary); }
+        .gold-divider { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
+        .stat-card { background: linear-gradient(145deg, rgba(22,22,22,0.8), rgba(17,17,17,0.6)); border: 1px solid rgba(201,169,110,0.1); transition: all 0.4s ease; }
+        .stat-card:hover { border-color: rgba(201,169,110,0.3); transform: translateY(-5px); }
+        .filter-btn { transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: var(--background); border-color: var(--primary); }
+        .service-card { transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.05); }
+        .service-card:hover { border-color: rgba(201,169,110,0.3); background: rgba(22,22,22,0.9); }
+        .service-card:hover .service-icon { color: var(--primary); transform: scale(1.1); }
+        .service-icon { transition: all 0.3s ease; }
+        .collection-card { position: relative; overflow: hidden; }
+        .collection-card img { transition: transform 0.7s ease; }
+        .collection-card:hover img { transform: scale(1.1); }
+        .collection-card .collection-overlay { background: linear-gradient(to top, rgba(5,5,5,0.9) 0%, transparent 60%); }
+        .amenity-item { transition: all 0.3s ease; }
+        .amenity-item:hover { color: var(--primary); }
+        .floor-tab { transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .floor-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); z-index: 100; transition: all 0.3s ease; }
+        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(37,211,102,0.6); }
+        img { opacity: 0; transition: opacity 0.5s ease; }
+        img.loaded { opacity: 1; }
+        .hero-text-shadow { text-shadow: 0 2px 40px rgba(0,0,0,0.5); }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
+</head>
+<body><div class="loading-screen" id="loadingScreen">
+    <div class="text-center">
+        <h1 class="font-playfair text-4xl md:text-5xl gradient-text tracking-wide">PRESTIGE ESTATES</h1>
+        <p class="text-muted text-sm tracking-[0.3em] mt-3 uppercase">Ultra-Luxury Real Estate</p>
+        <div class="loading-bar mx-auto"></div>
+    </div>
+</div>
+<div class="custom-cursor hidden md:block" id="customCursor"></div>
+<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="navbar">
+    <div class="glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex items-center gap-3" onclick="router.navigate('home'); return false;">
+                    <div class="w-10 h-10 border border-primary/50 flex items-center justify-center">
+                        <span class="font-playfair text-primary text-xl font-bold">P</span>
+                    </div>
+                    <div class="hidden sm:block">
+                        <span class="font-playfair text-xl tracking-wide">PRESTIGE</span>
+                        <span class="font-playfair text-primary text-xl tracking-wide"> ESTATES</span>
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center gap-10">
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="home" onclick="router.navigate('home'); return false;">Home</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="properties" onclick="router.navigate('properties'); return false;">Properties</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="about" onclick="router.navigate('about'); return false;">About</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="agents" onclick="router.navigate('agents'); return false;">Agents</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="contact" onclick="router.navigate('contact'); return false;">Contact</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="tel:+1234567890" class="hidden md:flex items-center gap-2 text-sm text-primary hover:text-white transition-colors">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                        <span class="tracking-wider">+1 (234) 567-890</span>
+                    </a>
+                    <button class="lg:hidden p-2" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="mobile-menu fixed inset-0 z-50 bg-background" id="mobileMenu">
+    <div class="flex flex-col h-full p-8">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-playfair text-2xl">PRESTIGE<span class="text-primary"> ESTATES</span></span>
+            <button onclick="toggleMobileMenu()" class="p-2"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <div class="flex flex-col gap-6">
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('home'); toggleMobileMenu(); return false;">Home</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('properties'); toggleMobileMenu(); return false;">Properties</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('about'); toggleMobileMenu(); return false;">About</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('agents'); toggleMobileMenu(); return false;">Agents</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('contact'); toggleMobileMenu(); return false;">Contact</a>
+        </div>
+        <div class="mt-auto">
+            <div class="gold-divider mb-6"></div>
+            <p class="text-muted text-sm">+1 (234) 567-890</p>
+            <p class="text-muted text-sm mt-1">hello@prestigeestates.com</p>
+        </div>
+    </div>
+</div><div class="loading-screen" id="loadingScreen">
+    <div class="text-center">
+        <h1 class="font-playfair text-4xl md:text-5xl gradient-text tracking-wide">PRESTIGE ESTATES</h1>
+        <p class="text-muted text-sm tracking-[0.3em] mt-3 uppercase">Ultra-Luxury Real Estate</p>
+        <div class="loading-bar mx-auto"></div>
+    </div>
+</div>
+<div class="custom-cursor hidden md:block" id="customCursor"></div>
+<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" id="navbar">
+    <div class="glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex items-center gap-3" onclick="router.navigate('home'); return false;">
+                    <div class="w-10 h-10 border border-primary/50 flex items-center justify-center">
+                        <span class="font-playfair text-primary text-xl font-bold">P</span>
+                    </div>
+                    <div class="hidden sm:block">
+                        <span class="font-playfair text-xl tracking-wide">PRESTIGE</span>
+                        <span class="font-playfair text-primary text-xl tracking-wide"> ESTATES</span>
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center gap-10">
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="home" onclick="router.navigate('home'); return false;">Home</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="properties" onclick="router.navigate('properties'); return false;">Properties</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="about" onclick="router.navigate('about'); return false;">About</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="agents" onclick="router.navigate('agents'); return false;">Agents</a>
+                    <a href="#" class="nav-link text-sm tracking-widest uppercase font-medium" data-page="contact" onclick="router.navigate('contact'); return false;">Contact</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="tel:+1234567890" class="hidden md:flex items-center gap-2 text-sm text-primary hover:text-white transition-colors">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                        <span class="tracking-wider">+1 (234) 567-890</span>
+                    </a>
+                    <button class="lg:hidden p-2" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="mobile-menu fixed inset-0 z-50 bg-background" id="mobileMenu">
+    <div class="flex flex-col h-full p-8">
+        <div class="flex justify-between items-center mb-12">
+            <span class="font-playfair text-2xl">PRESTIGE<span class="text-primary"> ESTATES</span></span>
+            <button onclick="toggleMobileMenu()" class="p-2"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <div class="flex flex-col gap-6">
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('home'); toggleMobileMenu(); return false;">Home</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('properties'); toggleMobileMenu(); return false;">Properties</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('about'); toggleMobileMenu(); return false;">About</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('agents'); toggleMobileMenu(); return false;">Agents</a>
+            <a href="#" class="text-2xl font-playfair hover:text-primary transition-colors" onclick="router.navigate('contact'); toggleMobileMenu(); return false;">Contact</a>
+        </div>
+        <div class="mt-auto">
+            <div class="gold-divider mb-6"></div>
+            <p class="text-muted text-sm">+1 (234) 567-890</p>
+            <p class="text-muted text-sm mt-1">hello@prestigeestates.com</p>
+        </div>
+    </div>
+</div><script>
+
+const properties = [
+    { id: 1, name: "Villa Serenity", location: "Malibu, California", price: 28500000, bedrooms: 6, bathrooms: 8, area: 12500, status: "For Sale", type: "Villa", image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80", images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=80","https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80","https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80","https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80"], description: "An architectural masterpiece perched on the cliffs of Malibu, Villa Serenity offers breathtaking panoramic ocean views. This contemporary estate features floor-to-ceiling glass walls, an infinity pool, and a private beach access. The interior showcases imported Italian marble, custom millwork, and smart home technology throughout.", amenities: ["Infinity Pool","Private Beach Access","Wine Cellar","Home Theater","Smart Home System","Gym","Spa","Guest House","4-Car Garage","Outdoor Kitchen"], tags: ["Ocean View","Contemporary","Smart Home"], agentId: 1, featured: true },
+    { id: 2, name: "Château Lumière", location: "French Riviera, France", price: 42000000, bedrooms: 10, bathrooms: 12, area: 18500, status: "For Sale", type: "Château", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80", images: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80","https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1200&q=80","https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=80","https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1200&q=80"], description: "A magnificent 19th-century château completely restored to modern luxury standards while preserving its historic charm. Set on 5 acres of manicured gardens with Mediterranean Sea views, this estate features a grand ballroom, formal gardens, a helipad, and a private vineyard.", amenities: ["Grand Ballroom","Private Vineyard","Helipad","Formal Gardens","Wine Cellar","Library","Tennis Court","Staff Quarters","Guard House","Orangerie"], tags: ["Historic","Sea View","Estate"], agentId: 5, featured: true },
+    { id: 3, name: "Penthouse Horizon", location: "Manhattan, New York", price: 35000000, bedrooms: 4, bathrooms: 5, area: 6800, status: "For Sale", type: "Penthouse", image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80", images: ["https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80","https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80","https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=80","https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200&q=80"], description: "The crown jewel of Manhattan's skyline, Penthouse Horizon occupies the entire top floor of an iconic skyscraper. With 360-degree views of Central Park and the city, this residence features double-height ceilings, a private terrace, and bespoke interiors by a world-renowned designer.", amenities: ["Private Terrace","360° Views","Private Elevator","Concierge","Wine Room","Fitness Center","Spa","Business Center","Valet Parking","Private Storage"], tags: ["City View","Penthouse","Central Park"], agentId: 1, featured: true },
+    { id: 4, name: "Oceanfront Paradise", location: "Miami Beach, Florida", price: 18500000, bedrooms: 5, bathrooms: 7, area: 9800, status: "For Sale", type: "Villa", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80", images: ["https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200&q=80","https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=1200&q=80","https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=1200&q=80","https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=1200&q=80"], description: "A modern waterfront estate on Miami Beach's most prestigious street. This architectural gem features direct ocean access, a rooftop infinity pool, and an open-concept design that seamlessly blends indoor and outdoor living. The property includes a private dock for yachts up to 100 feet.", amenities: ["Rooftop Pool","Private Dock","Beach Access","Summer Kitchen","Home Theater","Smart Home","Wine Cellar","Gym","Guest Suite","3-Car Garage"], tags: ["Waterfront","Modern","Dock"], agentId: 2, featured: false },
+    { id: 5, name: "Alpine Retreat", location: "Aspen, Colorado", price: 22000000, bedrooms: 7, bathrooms: 9, area: 14200, status: "For Sale", type: "Chalet", image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800&q=80", images: ["https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=80","https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=80","https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80","https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=80"], description: "An extraordinary mountain chalet offering the ultimate ski-in/ski-out experience. This timber and stone masterpiece features soaring ceilings with exposed beams, a grand stone fireplace, and floor-to-ceiling windows framing panoramic mountain views. The property includes a private ski room and heated outdoor pool.", amenities: ["Ski-In/Ski-Out","Heated Pool","Stone Fireplace","Wine Cellar","Game Room","Home Theater","Hot Tub","Ski Room","Guest House","4-Car Garage"], tags: ["Mountain View","Ski Access","Chalet"], agentId: 4, featured: false },
+    { id: 6, name: "Mediterranean Estate", location: "Marbella, Spain", price: 15800000, bedrooms: 8, bathrooms: 10, area: 16500, status: "For Sale", type: "Estate", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80", images: ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80","https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80","https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80","https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1200&q=80"], description: "A stunning Mediterranean estate in Marbella's Golden Mile. This Andalusian-inspired property features lush tropical gardens, multiple terraces, and a grand courtyard with a fountain. The interior combines traditional Spanish architecture with contemporary luxury finishes.", amenities: ["Tropical Gardens","Courtyard","Pool House","Wine Cellar","Home Cinema","Gym","Spa","Tennis Court","Staff Quarters","5-Car Garage"], tags: ["Garden","Mediterranean","Golden Mile"], agentId: 5, featured: false }
+];    { id: 7, name: "Tokyo Sky Residence", location: "Tokyo, Japan", price: 28000000, bedrooms: 3, bathrooms: 4, area: 5200, status: "For Sale", type: "Penthouse", image: "https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=800&q=80", images: ["https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=1200&q=80","https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1200&q=80","https://images.unsplash.com/photo-1600566752229-250ed79470f8?w=1200&q=80","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80"], description: "A rare ultra-luxury penthouse in Tokyo's most prestigious tower. This residence offers unobstructed views of Mount Fuji and Tokyo Bay through expansive windows. Designed by a renowned Japanese architect, the space features traditional tatami rooms alongside contemporary Western-style living areas.", amenities: ["Mount Fuji Views","Private Onsen","Tea Room","Concierge","Sky Lounge","Fitness Center","Wine Cellar","Private Storage","Valet","Helipad Access"], tags: ["City View","Japanese Design","Penthouse"], agentId: 6, featured: false },
+    { id: 8, name: "Dubai Palm Villa", location: "Dubai, UAE", price: 45000000, bedrooms: 9, bathrooms: 11, area: 22000, status: "For Sale", type: "Villa", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80", images: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80","https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1200&q=80","https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=80","https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=1200&q=80"], description: "The epitome of luxury on Palm Jumeirah, this waterfront palace features a private beach, multiple pools, and a grand entrance with a water feature. The interior showcases the finest materials including gold leaf accents, Italian marble, and crystal chandeliers.", amenities: ["Private Beach","Multiple Pools","Gold Leaf Accents","Private Cinema","Spa & Wellness","Smart Home","Yacht Dock","Staff Village","10-Car Garage","Rooftop Garden"], tags: ["Waterfront","Palace","Palm Jumeirah"], agentId: 6, featured: true },
+    { id: 9, name: "Kensington Townhouse", location: "London, UK", price: 32000000, bedrooms: 6, bathrooms: 7, area: 8900, status: "For Sale", type: "Townhouse", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80", images: ["https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80","https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80","https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=80","https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1200&q=80"], description: "A Grade II listed Georgian townhouse in the heart of Kensington. Meticulously restored and modernized, this residence preserves its historic façade while offering contemporary luxury within. Features include a private garden, elevator, and a subterranean wellness complex.", amenities: ["Private Garden","Elevator","Wine Cellar","Wellness Complex","Library","Home Office","Guest Suite","Security System","2-Car Garage","Period Features"], tags: ["Historic","Garden","Kensington"], agentId: 4, featured: false },
+    { id: 10, name: "Sydney Harbour Penthouse", location: "Sydney, Australia", price: 24000000, bedrooms: 4, bathrooms: 5, area: 6100, status: "For Sale", type: "Penthouse", image: "https://images.unsplash.com/photo-1600566752229-250ed79470f8?w=800&q=80", images: ["https://images.unsplash.com/photo-1600566752229-250ed79470f8?w=1200&q=80","https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80","https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=1200&q=80","https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80"], description: "A spectacular penthouse overlooking Sydney Harbour with iconic Opera House and Harbour Bridge views. This residence features expansive terraces, a private pool, and interiors that celebrate Australian contemporary design with natural materials and abundant natural light.", amenities: ["Harbour Views","Private Pool","Expansive Terraces","Wine Cellar","Gym","Concierge","Private Storage","Valet Parking","Smart Home","Outdoor Kitchen"], tags: ["Harbour View","Contemporary","Penthouse"], agentId: 2, featured: false },
+    { id: 11, name: "Santorini Cliff House", location: "Santorini, Greece", price: 12000000, bedrooms: 4, bathrooms: 5, area: 4800, status: "For Sale", type: "Villa", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80", images: ["https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80","https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=1200&q=80","https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80","https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80"], description: "A breathtaking cliffside villa carved into the volcanic rock of Santorini's caldera. This Cycladic masterpiece features the iconic white-washed architecture, infinity pools that merge with the Aegean Sea, and terraces perfect for watching the world-famous sunsets.", amenities: ["Caldera Views","Infinity Pool","Cave Rooms","Wine Cave","Outdoor Dining","Private Chapel","Helipad","Staff Quarters","Boat Access","Organic Garden"], tags: ["Caldera View","Cycladic","Cliffside"], agentId: 5, featured: false },
+    { id: 12, name: "Bali Jungle Estate", location: "Ubud, Bali", price: 8500000, bedrooms: 5, bathrooms: 6, area: 7200, status: "For Sale", type: "Estate", image: "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=800&q=80", images: ["https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=1200&q=80","https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=80","https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=80","https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=1200&q=80"], description: "A serene jungle retreat in the heart of Bali's cultural center. This estate seamlessly blends traditional Balinese architecture with modern luxury, featuring open-air pavilions, a sacred spring-fed pool, and rice terrace views. The property includes a meditation pavilion and yoga shala.", amenities: ["Jungle Views","Spring Pool","Rice Terraces","Meditation Pavilion","Yoga Shala","Open-Air Living","Staff Village","Organic Farm","Spa Pavilion","River Access"], tags: ["Jungle","Balinese","Retreat"], agentId: 3, featured: false }
+];
+
+const agents = [
+    { id: 1, name: "Alexandra Sterling", title: "CEO & Founder", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80", bio: "With over 25 years of experience in ultra-luxury real estate, Alexandra founded Prestige Estates with a vision to redefine the industry. Her unparalleled network and deep understanding of the global luxury market have made her one of the most respected figures in international real estate.", experience: "25+ Years", languages: ["English","French","Italian"], specializations: ["Ultra-Luxury","International","Investment"], email: "alexandra@prestigeestates.com", phone: "+1 (234) 567-891", sales: "$2.8B+" },
+    { id: 2, name: "Marcus Chen", title: "Senior Partner", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80", bio: "Marcus brings 18 years of expertise in Asian and American luxury markets. A Harvard MBA graduate, he specializes in cross-border transactions and has facilitated some of the most significant property deals between Asia and North America.", experience: "18 Years", languages: ["English","Mandarin","Japanese"], specializations: ["Asia-Pacific","Commercial","Cross-Border"], email: "marcus@prestigeestates.com", phone: "+1 (234) 567-892", sales: "$1.5B+" },
+    { id: 3, name: "Isabella Romano", title: "Luxury Specialist", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80", bio: "Isabella's passion for architecture and design, combined with her deep roots in European luxury markets, makes her an exceptional advisor for clients seeking distinctive properties. She holds a Master's in Architecture from Politecnico di Milano.", experience: "15 Years", languages: ["English","Italian","Spanish","Portuguese"], specializations: ["European Markets","Historic Properties","Design"], email: "isabella@prestigeestates.com", phone: "+1 (234) 567-893", sales: "$980M+" },
+    { id: 4, name: "James Whitfield", title: "International Director", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80", bio: "James oversees Prestige Estates' international operations across 15 countries. His diplomatic background and fluency in multiple languages enable him to navigate complex international transactions with ease and discretion.", experience: "20 Years", languages: ["English","German","Russian","Arabic"], specializations: ["Middle East","Europe","Diplomatic Sales"], email: "james@prestigeestates.com", phone: "+1 (234) 567-894", sales: "$1.2B+" },
+    { id: 5, name: "Sophia Laurent", title: "European Markets Lead", image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&q=80", bio: "Sophia's intimate knowledge of Europe's most exclusive addresses, from the French Riviera to the Swiss Alps, has earned her a reputation as the go-to advisor for European luxury properties. She is a member of the European Real Estate Network.", experience: "16 Years", languages: ["English","French","German","Dutch"], specializations: ["French Riviera","Alpine Properties","Historic Châteaux"], email: "sophia@prestigeestates.com", phone: "+1 (234) 567-895", sales: "$1.1B+" },
+    { id: 6, name: "David Nakamura", title: "Asia Pacific Director", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80", bio: "David leads our Asia Pacific operations from Tokyo, covering markets from Singapore to Sydney. His background in investment banking provides clients with sophisticated financial analysis alongside property expertise.", experience: "14 Years", languages: ["English","Japanese","Korean","Mandarin"], specializations: ["Tokyo","Singapore","Investment"], email: "david@prestigeestates.com", phone: "+1 (234) 567-896", sales: "$890M+" }
+];const testimonials = [
+    { name: "Richard & Eleanor Hartwell", title: "Property Buyers, Malibu", text: "Prestige Estates transformed our property search into an extraordinary experience. Alexandra's attention to detail and understanding of our lifestyle needs was impeccable. We found our dream home within weeks.", rating: 5 },
+    { name: "Hassan Al-Rashid", title: "Investor, Dubai", text: "The level of professionalism and market insight provided by Marcus and his team is unmatched. They identified investment opportunities that exceeded our expectations. A truly world-class organization.", rating: 5 },
+    { name: "Countess Isabella von Habsburg", title: "Property Seller, Vienna", text: "Selling a historic family estate requires sensitivity and discretion. Sophia handled every aspect with the utmost professionalism, achieving a result that honored our family's legacy while meeting market expectations.", rating: 5 },
+    { name: "Kenji Tanaka", title: "Corporate Client, Tokyo", text: "David's expertise in the Tokyo luxury market saved us months of searching. His understanding of both Japanese business culture and international standards made the entire process seamless.", rating: 5 }
+];
+
+const collections = [
+    { name: "Waterfront Estates", count: 24, image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" },
+    { name: "Mountain Retreats", count: 18, image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600&q=80" },
+    { name: "Urban Penthouses", count: 31, image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80" },
+    { name: "Historic Châteaux", count: 12, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" }
+];
+
+const services = [
+    { icon: "home", title: "Property Sales", desc: "Exclusive access to the world's most prestigious properties with personalized guidance throughout the acquisition process." },
+    { icon: "shield-check", title: "Property Management", desc: "Comprehensive management services ensuring your investment maintains its value and generates optimal returns." },
+    { icon: "trending-up", title: "Investment Advisory", desc: "Strategic investment guidance backed by deep market analysis and global economic insights." },
+    { icon: "palette", title: "Interior Design", desc: "Bespoke interior design services connecting you with world-renowned designers and artisans." },
+    { icon: "plane", title: "Relocation Services", desc: "Seamless relocation support including visa assistance, school searches, and cultural integration." },
+    { icon: "concierge-bell", title: "Concierge Services", desc: "24/7 concierge services catering to every aspect of luxury living, from private events to travel arrangements." }
+];
+
+const timeline = [
+    { year: "2001", title: "Foundation", desc: "Prestige Estates was founded in New York with a vision to redefine luxury real estate." },
+    { year: "2005", title: "European Expansion", desc: "Opened our first international office in London, followed by Paris and Monaco." },
+    { year: "2010", title: "Asia Pacific Launch", desc: "Expanded into Asian markets with offices in Tokyo, Singapore, and Hong Kong." },
+    { year: "2015", title: "Digital Innovation", desc: "Launched our proprietary property platform, revolutionizing how clients explore luxury homes." },
+    { year: "2018", title: "Middle East Presence", desc: "Established operations in Dubai, serving the region's most discerning clientele." },
+    { year: "2023", title: "Global Leadership", desc: "Recognized as the world's leading ultra-luxury real estate firm with $15B+ in annual sales." }
+];
+
+const offices = [
+    { city: "New York", address: "432 Park Avenue, Suite 4500, New York, NY 10022", phone: "+1 (234) 567-890", hours: "Mon-Fri: 9:00 AM - 7:00 PM" },
+    { city: "London", address: "15 Kensington Palace Gardens, London W8 4QP, UK", phone: "+44 20 7123 4567", hours: "Mon-Fri: 9:00 AM - 6:00 PM" },
+    { city: "Dubai", address: "Burj Khalifa, Level 123, Downtown Dubai, UAE", phone: "+971 4 123 4567", hours: "Sun-Thu: 9:00 AM - 6:00 PM" },
+    { city: "Tokyo", address: "Roppongi Hills Mori Tower, 6-10-1 Roppongi, Minato-ku", phone: "+81 3 1234 5678", hours: "Mon-Fri: 9:00 AM - 6:00 PM" }
+];function formatPrice(price) {
+    if (price >= 1000000) return '$' + (price / 1000000).toFixed(1) + 'M';
+    if (price >= 1000) return '$' + (price / 1000).toFixed(0) + 'K';
+    return '$' + price;
+}
+
+function formatPriceFull(price) {
+    return '$' + price.toLocaleString();
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    toastMessage.textContent = message;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    toast.classList.add('opacity-100');
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+        toast.classList.remove('opacity-100');
+    }, 3000);
+}
+
+function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+function initLucide() {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function initImages() {
+    document.querySelectorAll('img').forEach(img => {
+        if (img.complete) img.classList.add('loaded');
+        else img.onload = () => img.classList.add('loaded');
+    });
+}
+
+function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+function initCounters() {
+    const counters = document.querySelectorAll('.counter');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = parseInt(entry.target.dataset.target);
+                const suffix = entry.target.dataset.suffix || '';
+                const duration = 2000;
+                const start = 0;
+                const startTime = performance.now();
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(start + (target - start) * easeProgress);
+                    entry.target.textContent = current.toLocaleString() + suffix;
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    counters.forEach(c => observer.observe(c));
+}
+
+function initCustomCursor() {
+    const cursor = document.getElementById('customCursor');
+    if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
+    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+    document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
+    function animate() {
+        cursorX += (mouseX - cursorX) * 0.15;
+        cursorY += (mouseY - cursorY) * 0.15;
+        cursor.style.left = cursorX - 10 + 'px';
+        cursor.style.top = cursorY - 10 + 'px';
+        requestAnimationFrame(animate);
+    }
+    animate();
+    document.querySelectorAll('a, button, .property-card, .agent-card').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+}
+
+function initNavbar() {
+    const navbar = document.getElementById('navbar');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > 100) navbar.classList.add('shadow-lg');
+        else navbar.classList.remove('shadow-lg');
+        lastScroll = currentScroll;
+    }, { passive: true });
+}
+
+function initParallax() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    const heroBg = document.querySelector('.hero-bg');
+    if (!heroBg) return;
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }, { passive: true });
+}const router = {
+    currentPage: 'home',
+    navigate(page, params = {}) {
+        this.currentPage = page;
+        window.scrollTo(0, 0);
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.toggle('active', link.dataset.page === page);
+        });
+        const main = document.getElementById('mainContent');
+        switch(page) {
+            case 'home': main.innerHTML = renderHome(); break;
+            case 'properties': main.innerHTML = renderProperties(); break;
+            case 'property': main.innerHTML = renderPropertyDetail(params.id); break;
+            case 'about': main.innerHTML = renderAbout(); break;
+            case 'agents': main.innerHTML = renderAgents(); break;
+            case 'contact': main.innerHTML = renderContact(); break;
+            default: main.innerHTML = renderHome();
+        }
+        setTimeout(() => {
+            initLucide();
+            initImages();
+            initReveal();
+            initCounters();
+            initParallax();
+        }, 50);
+    }
+};
+
+function renderHome() {
+    const featured = properties.filter(p => p.featured);
+    return `
+    <div class="page-content">
+        <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+            <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80');"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-background"></div>
+            <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+                <p class="text-primary tracking-[0.4em] text-sm uppercase mb-6 reveal">Welcome to Prestige Estates</p>
+                <h1 class="font-playfair text-5xl md:text-7xl lg:text-8xl font-medium leading-tight mb-6 hero-text-shadow reveal">
+                    Where Luxury<br><span class="gradient-text">Meets Legacy</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 reveal">Discover the world's most extraordinary properties, curated for those who demand nothing less than perfection.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center reveal">
+                    <button onclick="router.navigate('properties')" class="btn-primary">Explore Properties</button>
+                    <button onclick="router.navigate('contact')" class="btn-outline">Contact Us</button>
+                </div>
+            </div>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+                <i data-lucide="chevron-down" class="w-6 h-6 text-primary"></i>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="glass-light rounded-2xl p-8 md:p-12 reveal">
+                    <h2 class="font-playfair text-3xl md:text-4xl text-center mb-10">Find Your Perfect Property</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Location</label>
+                            <select class="luxury-input w-full px-4 py-3 rounded-lg" id="searchLocation">
+                                <option value="">All Locations</option>
+                                <option value="California">California</option>
+                                <option value="France">France</option>
+                                <option value="New York">New York</option>
+                                <option value="Florida">Florida</option>
+                                <option value="Colorado">Colorado</option>
+                                <option value="Spain">Spain</option>
+                                <option value="Japan">Japan</option>
+                                <option value="Dubai">Dubai</option>
+                                <option value="London">London</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Greece">Greece</option>
+                                <option value="Bali">Bali</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Property Type</label>
+                            <select class="luxury-input w-full px-4 py-3 rounded-lg" id="searchType">
+                                <option value="">All Types</option>
+                                <option value="Villa">Villa</option>
+                                <option value="Penthouse">Penthouse</option>
+                                <option value="Château">Château</option>
+                                <option value="Estate">Estate</option>
+                                <option value="Chalet">Chalet</option>
+                                <option value="Townhouse">Townhouse</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Price Range</label>
+                            <select class="luxury-input w-full px-4 py-3 rounded-lg" id="searchPrice">
+                                <option value="">Any Price</option>
+                                <option value="0-10000000">Under $10M</option>
+                                <option value="10000000-25000000">$10M - $25M</option>
+                                <option value="25000000-50000000">$25M - $50M</option>
+                                <option value="50000000+">$50M+</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="performSearch()" class="btn-primary w-full">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+`;        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+                    <div class="reveal">
+                        <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Exclusive Listings</p>
+                        <h2 class="font-playfair text-4xl md:text-5xl">Featured Properties</h2>
+                    </div>
+                    <button onclick="router.navigate('properties')" class="btn-outline text-sm reveal">View All Properties</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    ${featured.map((p, i) => `
+                    <div class="property-card bg-card rounded-xl overflow-hidden cursor-pointer reveal" style="transition-delay: ${i * 100}ms" onclick="router.navigate('property', {id: ${p.id}})">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="${p.image}" alt="${p.name}" class="property-img w-full h-full object-cover">
+                            <div class="property-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+                                <span class="btn-primary text-sm">View Details</span>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="luxury-tag px-3 py-1 text-xs uppercase tracking-wider">${p.status}</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-black/60 backdrop-blur-sm px-3 py-1 text-xs">${p.type}</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-playfair text-xl mb-2">${p.name}</h3>
+                            <p class="text-muted text-sm mb-4 flex items-center gap-2">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>${p.location}
+                            </p>
+                            <div class="flex items-center gap-4 text-sm text-muted mb-4">
+                                <span class="flex items-center gap-1"><i data-lucide="bed" class="w-4 h-4"></i> ${p.bedrooms}</span>
+                                <span class="flex items-center gap-1"><i data-lucide="bath" class="w-4 h-4"></i> ${p.bathrooms}</span>
+                                <span class="flex items-center gap-1"><i data-lucide="maximize" class="w-4 h-4"></i> ${p.area.toLocaleString()} sqft</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${p.tags.map(tag => `<span class="text-xs text-muted border border-white/10 px-2 py-1">${tag}</span>`).join('')}
+                            </div>
+                            <p class="text-primary font-playfair text-2xl">${formatPrice(p.price)}</p>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Curated Selections</p>
+                    <h2 class="font-playfair text-4xl md:text-5xl">Exclusive Collections</h2>
+                    <div class="gold-divider mx-auto mt-6"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    ${collections.map((c, i) => `
+                    <div class="collection-card rounded-xl overflow-hidden cursor-pointer reveal" style="transition-delay: ${i * 100}ms" onclick="router.navigate('properties')">
+                        <div class="relative h-80">
+                            <img src="${c.image}" alt="${c.name}" class="w-full h-full object-cover">
+                            <div class="collection-overlay absolute inset-0"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-6">
+                                <h3 class="font-playfair text-xl mb-1">${c.name}</h3>
+                                <p class="text-muted text-sm">${c.count} Properties</p>
+                            </div>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+`;        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal">
+                        <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">The Prestige Lifestyle</p>
+                        <h2 class="font-playfair text-4xl md:text-5xl mb-6">Beyond Real Estate</h2>
+                        <p class="text-muted leading-relaxed mb-6">At Prestige Estates, we understand that luxury living extends far beyond the walls of your home. Our comprehensive lifestyle services ensure that every aspect of your life is elevated to the extraordinary.</p>
+                        <p class="text-muted leading-relaxed mb-8">From private aviation and yacht charters to exclusive event access and personal shopping, our concierge team anticipates your every need before you do.</p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="plane" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Private Aviation</h4>
+                                    <p class="text-muted text-sm">Global jet charter services</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="ship" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Yacht Charters</h4>
+                                    <p class="text-muted text-sm">Luxury vessel arrangements</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="wine" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Private Events</h4>
+                                    <p class="text-muted text-sm">Exclusive access & hosting</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="gem" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Art Advisory</h4>
+                                    <p class="text-muted text-sm">Curated collections</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative reveal">
+                        <div class="aspect-[3/4] rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="Luxury Lifestyle" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-8 -left-8 glass p-6 rounded-xl hidden md:block">
+                            <p class="font-playfair text-3xl gradient-text">15+</p>
+                            <p class="text-muted text-sm">Years of Excellence</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="2500" data-suffix="+">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">Properties Sold</p>
+                    </div>
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="15" data-suffix="B+">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">In Sales</p>
+                    </div>
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="45" data-suffix="+">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">Global Markets</p>
+                    </div>
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="98" data-suffix="%">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">Client Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Our Advantage</p>
+                    <h2 class="font-playfair text-4xl md:text-5xl">Why Choose Prestige Estates</h2>
+                    <div class="gold-divider mx-auto mt-6"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="reveal">
+                        <div class="w-14 h-14 border border-primary/30 flex items-center justify-center mb-6">
+                            <i data-lucide="globe" class="w-7 h-7 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-2xl mb-4">Global Reach</h3>
+                        <p class="text-muted leading-relaxed">Access to exclusive properties across 45+ markets worldwide. Our international network ensures you find the perfect property, wherever your dreams take you.</p>
+                    </div>
+                    <div class="reveal">
+                        <div class="w-14 h-14 border border-primary/30 flex items-center justify-center mb-6">
+                            <i data-lucide="shield" class="w-7 h-7 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-2xl mb-4">Discretion & Privacy</h3>
+                        <p class="text-muted leading-relaxed">We understand the importance of privacy in high-value transactions. Our protocols ensure complete confidentiality throughout the entire process.</p>
+                    </div>
+                    <div class="reveal">
+                        <div class="w-14 h-14 border border-primary/30 flex items-center justify-center mb-6">
+                            <i data-lucide="award" class="w-7 h-7 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-2xl mb-4">Market Expertise</h3>
+                        <p class="text-muted leading-relaxed">Our team's deep market knowledge and analytical capabilities provide you with insights that translate into informed decisions and optimal outcomes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+`;        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">What We Offer</p>
+                    <h2 class="font-playfair text-4xl md:text-5xl">Luxury Services</h2>
+                    <div class="gold-divider mx-auto mt-6"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${services.map((s, i) => `
+                    <div class="service-card p-8 rounded-xl reveal" style="transition-delay: ${i * 100}ms">
+                        <i data-lucide="${s.icon}" class="service-icon w-10 h-10 text-muted mb-6"></i>
+                        <h3 class="font-playfair text-xl mb-3">${s.title}</h3>
+                        <p class="text-muted text-sm leading-relaxed">${s.desc}</p>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Client Stories</p>
+                    <h2 class="font-playfair text-4xl md:text-5xl">What Our Clients Say</h2>
+                    <div class="gold-divider mx-auto mt-6"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    ${testimonials.map((t, i) => `
+                    <div class="testimonial-card p-8 rounded-xl reveal" style="transition-delay: ${i * 100}ms">
+                        <div class="flex gap-1 mb-6">
+                            ${Array(5).fill().map(() => `<i data-lucide="star" class="w-4 h-4 text-primary fill-primary"></i>`).join('')}
+                        </div>
+                        <p class="text-gray-300 leading-relaxed mb-6 italic">"${t.text}"</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                                <span class="font-playfair text-primary text-lg">${t.name.charAt(0)}</span>
+                            </div>
+                            <div>
+                                <p class="font-medium">${t.name}</p>
+                                <p class="text-muted text-sm">${t.title}</p>
+                            </div>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-5xl mx-auto">
+                <div class="relative rounded-2xl overflow-hidden reveal">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80" alt="CTA" class="w-full h-96 object-cover">
+                    <div class="absolute inset-0 bg-black/70"></div>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+                        <h2 class="font-playfair text-4xl md:text-5xl mb-4">Ready to Find Your Dream Home?</h2>
+                        <p class="text-gray-300 max-w-xl mb-8">Let our team of experts guide you through the world's most exclusive properties. Your perfect home awaits.</p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="router.navigate('contact')" class="btn-primary">Schedule a Consultation</button>
+                            <button onclick="router.navigate('properties')" class="btn-outline">Browse Properties</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    `;
+}
+
+function performSearch() {
+    const location = document.getElementById('searchLocation').value;
+    const type = document.getElementById('searchType').value;
+    const price = document.getElementById('searchPrice').value;
+    router.navigate('properties');
+    setTimeout(() => {
+        if (location) document.getElementById('filterLocation').value = location;
+        if (type) document.getElementById('filterType').value = type;
+        if (price) document.getElementById('filterPrice').value = price;
+        filterProperties();
+    }, 100);
+}function renderProperties() {
+    return `
+    <div class="page-content pt-20">
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto text-center">
+                <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Our Portfolio</p>
+                <h1 class="font-playfair text-5xl md:text-6xl mb-6">Luxury Properties</h1>
+                <p class="text-muted max-w-2xl mx-auto">Explore our curated collection of the world's most prestigious properties, each handpicked for its exceptional quality and unique character.</p>
+            </div>
+        </section>
+        <section class="py-8 px-6 border-b border-white/5">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-wrap gap-4 items-center justify-center">
+                    <select class="luxury-input px-4 py-2 rounded-lg text-sm" id="filterLocation" onchange="filterProperties()">
+                        <option value="">All Locations</option>
+                        <option value="California">California</option>
+                        <option value="France">France</option>
+                        <option value="New York">New York</option>
+                        <option value="Florida">Florida</option>
+                        <option value="Colorado">Colorado</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Dubai">Dubai</option>
+                        <option value="London">London</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Greece">Greece</option>
+                        <option value="Bali">Bali</option>
+                    </select>
+                    <select class="luxury-input px-4 py-2 rounded-lg text-sm" id="filterType" onchange="filterProperties()">
+                        <option value="">All Types</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Penthouse">Penthouse</option>
+                        <option value="Château">Château</option>
+                        <option value="Estate">Estate</option>
+                        <option value="Chalet">Chalet</option>
+                        <option value="Townhouse">Townhouse</option>
+                    </select>
+                    <select class="luxury-input px-4 py-2 rounded-lg text-sm" id="filterPrice" onchange="filterProperties()">
+                        <option value="">Any Price</option>
+                        <option value="0-10000000">Under $10M</option>
+                        <option value="10000000-25000000">$10M - $25M</option>
+                        <option value="25000000-50000000">$25M - $50M</option>
+                        <option value="50000000+">$50M+</option>
+                    </select>
+                    <button onclick="clearFilters()" class="text-muted text-sm hover:text-primary transition-colors">Clear Filters</button>
+                </div>
+            </div>
+        </section>
+        <section class="py-16 px-6">
+            <div class="max-w-7xl mx-auto">
+                <p class="text-muted text-sm mb-8" id="resultsCount">Showing ${properties.length} properties</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertiesGrid">
+                    ${properties.map((p, i) => `
+                    <div class="property-card bg-card rounded-xl overflow-hidden cursor-pointer reveal" data-location="${p.location}" data-type="${p.type}" data-price="${p.price}" style="transition-delay: ${i % 3 * 100}ms" onclick="router.navigate('property', {id: ${p.id}})">
+                        <div class="relative h-72 overflow-hidden">
+                            <img src="${p.image}" alt="${p.name}" class="property-img w-full h-full object-cover">
+                            <div class="property-overlay absolute inset-0 bg-black/40 flex items-center justify-center">
+                                <span class="btn-primary text-sm">View Details</span>
+                            </div>
+                            <div class="absolute top-4 left-4">
+                                <span class="luxury-tag px-3 py-1 text-xs uppercase tracking-wider">${p.status}</span>
+                            </div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-black/60 backdrop-blur-sm px-3 py-1 text-xs">${p.type}</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-playfair text-xl mb-2">${p.name}</h3>
+                            <p class="text-muted text-sm mb-4 flex items-center gap-2">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>${p.location}
+                            </p>
+                            <div class="flex items-center gap-4 text-sm text-muted mb-4">
+                                <span class="flex items-center gap-1"><i data-lucide="bed" class="w-4 h-4"></i> ${p.bedrooms}</span>
+                                <span class="flex items-center gap-1"><i data-lucide="bath" class="w-4 h-4"></i> ${p.bathrooms}</span>
+                                <span class="flex items-center gap-1"><i data-lucide="maximize" class="w-4 h-4"></i> ${p.area.toLocaleString()} sqft</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${p.tags.map(tag => `<span class="text-xs text-muted border border-white/10 px-2 py-1">${tag}</span>`).join('')}
+                            </div>
+                            <p class="text-primary font-playfair text-2xl">${formatPrice(p.price)}</p>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+    </div>
+    `;
+}
+
+function filterProperties() {
+    const location = document.getElementById('filterLocation')?.value || '';
+    const type = document.getElementById('filterType')?.value || '';
+    const price = document.getElementById('filterPrice')?.value || '';
+
+    const cards = document.querySelectorAll('#propertiesGrid > div');
+    let visible = 0;
+
+    cards.forEach(card => {
+        const cardLocation = card.dataset.location;
+        const cardType = card.dataset.type;
+        const cardPrice = parseInt(card.dataset.price);
+
+        let show = true;
+        if (location && !cardLocation.includes(location)) show = false;
+        if (type && cardType !== type) show = false;
+        if (price) {
+            if (price === '0-10000000' && cardPrice >= 10000000) show = false;
+            if (price === '10000000-25000000' && (cardPrice < 10000000 || cardPrice > 25000000)) show = false;
+            if (price === '25000000-50000000' && (cardPrice < 25000000 || cardPrice > 50000000)) show = false;
+            if (price === '50000000+' && cardPrice < 50000000) show = false;
+        }
+
+        card.style.display = show ? 'block' : 'none';
+        if (show) visible++;
+    });
+
+    const countEl = document.getElementById('resultsCount');
+    if (countEl) countEl.textContent = `Showing ${visible} properties`;
+}
+
+function clearFilters() {
+    document.getElementById('filterLocation').value = '';
+    document.getElementById('filterType').value = '';
+    document.getElementById('filterPrice').value = '';
+    filterProperties();
+}function renderPropertyDetail(id) {
+    const property = properties.find(p => p.id === id);
+    if (!property) return renderProperties();
+    const agent = agents.find(a => a.id === property.agentId);
+    const similar = properties.filter(p => p.id !== id && p.type === property.type).slice(0, 3);
+
+    return `
+    <div class="page-content pt-20">
+        <section class="px-6 py-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div class="lg:col-span-2 relative h-[500px] rounded-xl overflow-hidden">
+                        <img id="mainGalleryImage" src="${property.images[0]}" alt="${property.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        ${property.images.slice(1).map((img, i) => `
+                        <div class="relative h-[240px] rounded-xl overflow-hidden cursor-pointer gallery-thumb" onclick="changeGalleryImage('${img}')">
+                            <img src="${img}" alt="${property.name}" class="w-full h-full object-cover">
+                        </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-8 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <div class="lg:col-span-2">
+                        <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                            <div>
+                                <h1 class="font-playfair text-4xl md:text-5xl mb-2">${property.name}</h1>
+                                <p class="text-muted flex items-center gap-2">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>${property.location}
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-playfair text-3xl md:text-4xl gradient-text">${formatPriceFull(property.price)}</p>
+                                <span class="luxury-tag px-3 py-1 text-xs uppercase tracking-wider mt-2 inline-block">${property.status}</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 py-6 border-y border-white/10 mb-8">
+                            <div class="text-center">
+                                <i data-lucide="bed" class="w-6 h-6 text-primary mx-auto mb-2"></i>
+                                <p class="font-playfair text-2xl">${property.bedrooms}</p>
+                                <p class="text-muted text-sm">Bedrooms</p>
+                            </div>
+                            <div class="text-center">
+                                <i data-lucide="bath" class="w-6 h-6 text-primary mx-auto mb-2"></i>
+                                <p class="font-playfair text-2xl">${property.bathrooms}</p>
+                                <p class="text-muted text-sm">Bathrooms</p>
+                            </div>
+                            <div class="text-center">
+                                <i data-lucide="maximize" class="w-6 h-6 text-primary mx-auto mb-2"></i>
+                                <p class="font-playfair text-2xl">${property.area.toLocaleString()}</p>
+                                <p class="text-muted text-sm">Sq Ft</p>
+                            </div>
+                        </div>
+`;                        <div class="mb-8">
+                            <h2 class="font-playfair text-2xl mb-4">Description</h2>
+                            <p class="text-muted leading-relaxed">${property.description}</p>
+                        </div>
+                        <div class="mb-8">
+                            <h2 class="font-playfair text-2xl mb-4">Amenities</h2>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                ${property.amenities.map(a => `
+                                <div class="amenity-item flex items-center gap-3 p-3 rounded-lg bg-card">
+                                    <i data-lucide="check" class="w-4 h-4 text-primary"></i>
+                                    <span class="text-sm">${a}</span>
+                                </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="mb-8">
+                            <h2 class="font-playfair text-2xl mb-4">Floor Plan</h2>
+                            <div class="bg-card rounded-xl p-8 text-center">
+                                <i data-lucide="layout" class="w-16 h-16 text-muted mx-auto mb-4"></i>
+                                <p class="text-muted mb-4">Interactive floor plan available</p>
+                                <div class="flex justify-center gap-4">
+                                    <button class="floor-tab active pb-2 text-sm">Ground Floor</button>
+                                    <button class="floor-tab pb-2 text-sm">First Floor</button>
+                                    <button class="floor-tab pb-2 text-sm">Second Floor</button>
+                                </div>
+                                <div class="mt-6 aspect-video bg-surface rounded-lg flex items-center justify-center">
+                                    <div class="text-center">
+                                        <p class="text-muted text-sm">${property.area.toLocaleString()} sq ft</p>
+                                        <p class="text-xs text-muted mt-1">${property.bedrooms} Bedrooms / ${property.bathrooms} Bathrooms</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-8">
+                            <h2 class="font-playfair text-2xl mb-4">Location</h2>
+                            <div class="bg-card rounded-xl overflow-hidden h-80 flex items-center justify-center">
+                                <div class="text-center">
+                                    <i data-lucide="map" class="w-12 h-12 text-muted mx-auto mb-3"></i>
+                                    <p class="text-muted">${property.location}</p>
+                                    <p class="text-xs text-muted mt-1">Interactive map integration</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+`;                    <div>
+                        <div class="glass-light rounded-xl p-6 sticky top-24">
+                            <h3 class="font-playfair text-xl mb-6">Interested in this property?</h3>
+                            <form class="space-y-4" onsubmit="event.preventDefault(); showToast('Inquiry sent successfully!');">
+                                <input type="text" placeholder="Your Name" class="luxury-input w-full px-4 py-3 rounded-lg text-sm" required>
+                                <input type="email" placeholder="Email Address" class="luxury-input w-full px-4 py-3 rounded-lg text-sm" required>
+                                <input type="tel" placeholder="Phone Number" class="luxury-input w-full px-4 py-3 rounded-lg text-sm">
+                                <textarea placeholder="Your Message" rows="4" class="luxury-input w-full px-4 py-3 rounded-lg text-sm resize-none"></textarea>
+                                <button type="submit" class="btn-primary w-full">Send Inquiry</button>
+                            </form>
+                            ${agent ? `
+                            <div class="mt-8 pt-8 border-t border-white/10">
+                                <p class="text-muted text-xs uppercase tracking-wider mb-4">Listing Agent</p>
+                                <div class="flex items-center gap-4">
+                                    <img src="${agent.image}" alt="${agent.name}" class="w-14 h-14 rounded-full object-cover">
+                                    <div>
+                                        <p class="font-medium">${agent.name}</p>
+                                        <p class="text-muted text-sm">${agent.title}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 space-y-2">
+                                    <a href="tel:${agent.phone}" class="flex items-center gap-2 text-sm text-muted hover:text-primary transition-colors">
+                                        <i data-lucide="phone" class="w-4 h-4"></i>${agent.phone}
+                                    </a>
+                                    <a href="mailto:${agent.email}" class="flex items-center gap-2 text-sm text-muted hover:text-primary transition-colors">
+                                        <i data-lucide="mail" class="w-4 h-4"></i>${agent.email}
+                                    </a>
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        ${similar.length > 0 ? `
+        <section class="py-16 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="font-playfair text-3xl mb-10">Similar Properties</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    ${similar.map((p, i) => `
+                    <div class="property-card bg-card rounded-xl overflow-hidden cursor-pointer" onclick="router.navigate('property', {id: ${p.id}})">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="${p.image}" alt="${p.name}" class="property-img w-full h-full object-cover">
+                            <div class="absolute top-4 left-4">
+                                <span class="luxury-tag px-3 py-1 text-xs uppercase tracking-wider">${p.status}</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-playfair text-lg mb-1">${p.name}</h3>
+                            <p class="text-muted text-sm mb-3">${p.location}</p>
+                            <p class="text-primary font-playfair text-xl">${formatPrice(p.price)}</p>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+        ` : ''}
+    </div>
+    `;
+}
+
+function changeGalleryImage(src) {
+    const mainImg = document.getElementById('mainGalleryImage');
+    if (mainImg) {
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+            mainImg.src = src;
+            mainImg.style.opacity = '1';
+        }, 200);
+    }
+}function renderAbout() {
+    return `
+    <div class="page-content pt-20">
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto text-center">
+                <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Our Story</p>
+                <h1 class="font-playfair text-5xl md:text-6xl mb-6">About Prestige Estates</h1>
+                <p class="text-muted max-w-2xl mx-auto">Two decades of excellence in ultra-luxury real estate, connecting discerning clients with the world's most extraordinary properties.</p>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal">
+                        <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Our Heritage</p>
+                        <h2 class="font-playfair text-4xl md:text-5xl mb-6">A Legacy of Excellence</h2>
+                        <p class="text-muted leading-relaxed mb-6">Founded in 2001 by Alexandra Sterling, Prestige Estates began with a simple yet ambitious vision: to redefine the luxury real estate experience. What started as a boutique agency in New York has evolved into a global powerhouse with presence in 45 markets across six continents.</p>
+                        <p class="text-muted leading-relaxed mb-6">Our journey has been marked by an unwavering commitment to excellence, discretion, and personalized service. We have facilitated over $15 billion in luxury property transactions, earning the trust of royalty, celebrities, and the world's most successful entrepreneurs.</p>
+                        <p class="text-muted leading-relaxed">Today, Prestige Estates stands as the definitive authority in ultra-luxury real estate, combining deep market expertise with an unparalleled network of properties and clients.</p>
+                    </div>
+                    <div class="relative reveal">
+                        <div class="aspect-[4/5] rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="About Prestige Estates" class="w-full h-full object-cover">
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 glass p-6 rounded-xl hidden md:block">
+                            <p class="font-playfair text-4xl gradient-text">25+</p>
+                            <p class="text-muted text-sm">Years of Excellence</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="reveal">
+                        <div class="w-14 h-14 border border-primary/30 flex items-center justify-center mb-6">
+                            <i data-lucide="target" class="w-7 h-7 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-3xl mb-4">Our Mission</h3>
+                        <p class="text-muted leading-relaxed">To transcend the traditional boundaries of real estate by delivering an unparalleled experience that combines market expertise, technological innovation, and white-glove service. We exist to transform our clients' aspirations into reality, one extraordinary property at a time.</p>
+                    </div>
+                    <div class="reveal">
+                        <div class="w-14 h-14 border border-primary/30 flex items-center justify-center mb-6">
+                            <i data-lucide="eye" class="w-7 h-7 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-3xl mb-4">Our Vision</h3>
+                        <p class="text-muted leading-relaxed">To be the world's most trusted and respected luxury real estate brand, setting the standard for excellence, innovation, and client satisfaction. We envision a future where every property transaction is an extraordinary journey, and every client becomes a lifelong partner.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+`;        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">What Drives Us</p>
+                    <h2 class="font-playfair text-4xl md:text-5xl">Core Values</h2>
+                    <div class="gold-divider mx-auto mt-6"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center reveal">
+                        <div class="w-16 h-16 border border-primary/30 flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="heart" class="w-8 h-8 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-3">Integrity</h3>
+                        <p class="text-muted text-sm leading-relaxed">We operate with unwavering honesty and transparency, building trust through every interaction.</p>
+                    </div>
+                    <div class="text-center reveal">
+                        <div class="w-16 h-16 border border-primary/30 flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="zap" class="w-8 h-8 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-3">Excellence</h3>
+                        <p class="text-muted text-sm leading-relaxed">We pursue perfection in everything we do, refusing to compromise on quality or service.</p>
+                    </div>
+                    <div class="text-center reveal">
+                        <div class="w-16 h-16 border border-primary/30 flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="users" class="w-8 h-8 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-3">Client First</h3>
+                        <p class="text-muted text-sm leading-relaxed">Our clients' needs and aspirations are at the center of every decision we make.</p>
+                    </div>
+                    <div class="text-center reveal">
+                        <div class="w-16 h-16 border border-primary/30 flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="lightbulb" class="w-8 h-8 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-3">Innovation</h3>
+                        <p class="text-muted text-sm leading-relaxed">We embrace cutting-edge technology and creative thinking to deliver superior results.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Our Journey</p>
+                    <h2 class="font-playfair text-4xl md:text-5xl">Company Timeline</h2>
+                    <div class="gold-divider mx-auto mt-6"></div>
+                </div>
+                <div class="relative border-l border-primary/30 ml-4 md:ml-0 md:pl-0">
+                    ${timeline.map((t, i) => `
+                    <div class="timeline-item relative pl-8 md:pl-12 pb-12 reveal" style="transition-delay: ${i * 100}ms">
+                        <div class="flex flex-col md:flex-row md:items-start gap-4">
+                            <div class="md:w-24 flex-shrink-0">
+                                <span class="font-playfair text-2xl gradient-text">${t.year}</span>
+                            </div>
+                            <div>
+                                <h3 class="font-playfair text-xl mb-2">${t.title}</h3>
+                                <p class="text-muted text-sm leading-relaxed">${t.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="2500" data-suffix="+">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">Properties Sold</p>
+                    </div>
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="15" data-suffix="B+">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">In Sales</p>
+                    </div>
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="45" data-suffix="+">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">Global Markets</p>
+                    </div>
+                    <div class="stat-card p-8 rounded-xl text-center reveal">
+                        <p class="font-playfair text-4xl md:text-5xl gradient-text counter" data-target="120" data-suffix="+">0</p>
+                        <p class="text-muted text-sm mt-2 uppercase tracking-wider">Expert Agents</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+`;        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 lg:order-1 reveal">
+                        <div class="aspect-[4/3] rounded-xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="Luxury Experience" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2 reveal">
+                        <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">The Experience</p>
+                        <h2 class="font-playfair text-4xl md:text-5xl mb-6">The Prestige Difference</h2>
+                        <p class="text-muted leading-relaxed mb-6">What sets Prestige Estates apart is our holistic approach to luxury real estate. We don't just sell properties; we curate lifestyles. Every client receives a bespoke experience tailored to their unique needs, preferences, and aspirations.</p>
+                        <p class="text-muted leading-relaxed mb-8">From the initial consultation to the final closing and beyond, our team of experts ensures a seamless, stress-free journey. We leverage cutting-edge technology, deep market intelligence, and an extensive global network to deliver results that exceed expectations.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-primary"></i>
+                                <span class="text-sm">Personalized property curation</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-primary"></i>
+                                <span class="text-sm">Off-market exclusive access</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-primary"></i>
+                                <span class="text-sm">White-glove concierge services</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-primary"></i>
+                                <span class="text-sm">Global relocation support</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    `;
+}
+
+function renderAgents() {
+    return `
+    <div class="page-content pt-20">
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto text-center">
+                <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Our Team</p>
+                <h1 class="font-playfair text-5xl md:text-6xl mb-6">Meet Our Agents</h1>
+                <p class="text-muted max-w-2xl mx-auto">Our team of seasoned professionals brings together decades of experience, deep market knowledge, and an unwavering commitment to client success.</p>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    ${agents.map((agent, i) => `
+                    <div class="agent-card bg-card rounded-xl overflow-hidden reveal" style="transition-delay: ${i * 100}ms">
+                        <div class="relative h-80 overflow-hidden">
+                            <img src="${agent.image}" alt="${agent.name}" class="agent-photo w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-6">
+                                <p class="text-primary text-sm tracking-wider uppercase mb-1">${agent.title}</p>
+                                <h3 class="font-playfair text-2xl">${agent.name}</h3>
+                            </div>
+                        </div>
+                        <div class="agent-info p-6">
+                            <p class="text-muted text-sm leading-relaxed mb-4 line-clamp-3">${agent.bio}</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                ${agent.specializations.map(s => `<span class="luxury-tag px-2 py-1 text-xs">${s}</span>`).join('')}
+                            </div>
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center gap-2 text-sm text-muted">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>${agent.experience} Experience
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-muted">
+                                    <i data-lucide="languages" class="w-4 h-4"></i>${agent.languages.join(', ')}
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-muted">
+                                    <i data-lucide="trending-up" class="w-4 h-4"></i>${agent.sales} in Sales
+                                </div>
+                            </div>
+                            <div class="flex gap-3 pt-4 border-t border-white/10">
+                                <a href="tel:${agent.phone}" class="flex-1 btn-primary text-center text-sm py-2">Call</a>
+                                <a href="mailto:${agent.email}" class="flex-1 btn-outline text-center text-sm py-2">Email</a>
+                            </div>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-4xl mx-auto text-center reveal">
+                <h2 class="font-playfair text-4xl md:text-5xl mb-6">Join Our Team</h2>
+                <p class="text-muted max-w-2xl mx-auto mb-8">Are you a talented real estate professional looking to elevate your career? We're always seeking exceptional individuals who share our passion for excellence.</p>
+                <button onclick="router.navigate('contact')" class="btn-primary">Apply Now</button>
+            </div>
+        </section>
+    </div>
+    `;
+}function renderContact() {
+    return `
+    <div class="page-content pt-20">
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto text-center">
+                <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Get in Touch</p>
+                <h1 class="font-playfair text-5xl md:text-6xl mb-6">Contact Us</h1>
+                <p class="text-muted max-w-2xl mx-auto">We would be delighted to assist you with your real estate needs. Reach out to our team for personalized service and expert guidance.</p>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <div class="reveal">
+                        <h2 class="font-playfair text-3xl mb-2">Send us a Message</h2>
+                        <p class="text-muted mb-8">Fill out the form below and our team will get back to you within 24 hours.</p>
+                        <form class="space-y-6" onsubmit="event.preventDefault(); showToast('Message sent successfully!');">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="text-muted text-xs uppercase tracking-wider mb-2 block">First Name</label>
+                                    <input type="text" class="luxury-input w-full px-4 py-3 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Last Name</label>
+                                    <input type="text" class="luxury-input w-full px-4 py-3 rounded-lg" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Email Address</label>
+                                <input type="email" class="luxury-input w-full px-4 py-3 rounded-lg" required>
+                            </div>
+                            <div>
+                                <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Phone Number</label>
+                                <input type="tel" class="luxury-input w-full px-4 py-3 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Subject</label>
+                                <select class="luxury-input w-full px-4 py-3 rounded-lg">
+                                    <option>Property Inquiry</option>
+                                    <option>Selling a Property</option>
+                                    <option>Investment Advisory</option>
+                                    <option>General Inquiry</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-muted text-xs uppercase tracking-wider mb-2 block">Message</label>
+                                <textarea rows="5" class="luxury-input w-full px-4 py-3 rounded-lg resize-none" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary w-full">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="reveal">
+                        <h2 class="font-playfair text-3xl mb-8">Contact Information</h2>
+                        <div class="space-y-8">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="map-pin" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Headquarters</h4>
+                                    <p class="text-muted text-sm">432 Park Avenue, Suite 4500<br>New York, NY 10022</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="phone" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Phone</h4>
+                                    <p class="text-muted text-sm">+1 (234) 567-890</p>
+                                    <p class="text-muted text-sm">+1 (234) 567-891</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="mail" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Email</h4>
+                                    <p class="text-muted text-sm">hello@prestigeestates.com</p>
+                                    <p class="text-muted text-sm">inquiries@prestigeestates.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="clock" class="w-5 h-5 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-1">Business Hours</h4>
+                                    <p class="text-muted text-sm">Monday - Friday: 9:00 AM - 7:00 PM</p>
+                                    <p class="text-muted text-sm">Saturday: 10:00 AM - 5:00 PM</p>
+                                    <p class="text-muted text-sm">Sunday: By Appointment</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <h4 class="font-medium mb-4">Follow Us</h4>
+                            <div class="flex gap-4">
+                                <a href="#" class="w-12 h-12 border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all">
+                                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                                </a>
+                                <a href="#" class="w-12 h-12 border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all">
+                                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                                </a>
+                                <a href="#" class="w-12 h-12 border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all">
+                                    <i data-lucide="twitter" class="w-5 h-5"></i>
+                                </a>
+                                <a href="#" class="w-12 h-12 border border-white/10 flex items-center justify-center hover:border-primary hover:text-primary transition-all">
+                                    <i data-lucide="facebook" class="w-5 h-5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6 bg-surface">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <p class="text-primary tracking-[0.3em] text-xs uppercase mb-3">Worldwide Presence</p>
+                    <h2 class="font-playfair text-4xl md:text-5xl">Our Offices</h2>
+                    <div class="gold-divider mx-auto mt-6"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    ${offices.map((office, i) => `
+                    <div class="glass-light rounded-xl p-6 reveal" style="transition-delay: ${i * 100}ms">
+                        <div class="w-12 h-12 border border-primary/30 flex items-center justify-center mb-4">
+                            <i data-lucide="building-2" class="w-6 h-6 text-primary"></i>
+                        </div>
+                        <h3 class="font-playfair text-xl mb-2">${office.city}</h3>
+                        <p class="text-muted text-sm mb-4">${office.address}</p>
+                        <div class="space-y-2">
+                            <p class="text-sm text-muted flex items-center gap-2">
+                                <i data-lucide="phone" class="w-4 h-4"></i>${office.phone}
+                            </p>
+                            <p class="text-sm text-muted flex items-center gap-2">
+                                <i data-lucide="clock" class="w-4 h-4"></i>${office.hours}
+                            </p>
+                        </div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="bg-card rounded-xl overflow-hidden h-96 flex items-center justify-center reveal">
+                    <div class="text-center">
+                        <i data-lucide="globe" class="w-16 h-16 text-muted mx-auto mb-4"></i>
+                        <h3 class="font-playfair text-2xl mb-2">Global Network</h3>
+                        <p class="text-muted">45+ Markets Worldwide</p>
+                        <div class="flex flex-wrap justify-center gap-4 mt-6">
+                            <span class="luxury-tag px-3 py-1 text-xs">New York</span>
+                            <span class="luxury-tag px-3 py-1 text-xs">London</span>
+                            <span class="luxury-tag px-3 py-1 text-xs">Dubai</span>
+                            <span class="luxury-tag px-3 py-1 text-xs">Tokyo</span>
+                            <span class="luxury-tag px-3 py-1 text-xs">Paris</span>
+                            <span class="luxury-tag px-3 py-1 text-xs">Singapore</span>
+                            <span class="luxury-tag px-3 py-1 text-xs">Sydney</span>
+                            <span class="luxury-tag px-3 py-1 text-xs">Monaco</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    `;
+}
+
+// ==================== INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+    }, 2200);
+
+    router.navigate('home');
+
+    initCustomCursor();
+    initNavbar();
+
+    window.addEventListener('popstate', () => {
+        router.navigate('home');
+    });
+});
+</script>
+</body>
+</html>
