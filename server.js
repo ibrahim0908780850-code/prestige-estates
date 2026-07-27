@@ -5,7 +5,7 @@ const app = express();
 // خدمة الملفات الثابتة (CSS, JS, صور)
 app.use(express.static(path.join(__dirname)));
 
-// أي طلب مش موجود، يروح لـ index.html
+// أي طلب يروح لـ index.html (عشان الـ Router يشتغل)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
